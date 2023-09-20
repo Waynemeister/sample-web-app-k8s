@@ -31,4 +31,4 @@ RUN dotnet publish -c Release -o /app/publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Basic3Tier.Core.csproj.dll"]
+ENTRYPOINT ["dotnet", "Basic3TierAPI.csproj.dll"]
