@@ -7,11 +7,18 @@ WORKDIR /src
 
 # Copy API
 COPY Basic3TierAPI/Basic3TierAPI.csproj Basic3TierAPI/
-# Restore as distinct layers
+# Restore API
 RUN dotnet restore "Basic3TierAPI/Basic3TierAPI.csproj"
+#Copy Infra
+COPY Basic3Tier.Infrastructure/Basic3Tier.Infrastructure.csproj Basic3Tier.Infrastructure/
+# Restore Infra
+RUN dotnet restore "Basic3Tier.Infrastructure/Basic3Tier.Infrastructure.csproj"
+# Copy Core
+COPY Basic3Tier.Core/Basic3Tier.Core.csproj Basic3Tier.Core/
+RUN dotnet restore "Basic3Tier.Core/Basic3Tier.Core.csproj"
 
 COPY . .
-WORKDIR "/src/."
+WORKDIR "/src/Basic3TierAPI"
 RUN dotnet build -c Release -o /app/build
 
 FROM build AS publish
