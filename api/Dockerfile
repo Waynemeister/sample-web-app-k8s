@@ -8,7 +8,7 @@ WORKDIR /src
 # Copy API
 COPY Basic3TierAPI/Basic3TierAPI.csproj Basic3TierAPI/
 # Restore as distinct layers
-RUN dotnet restore "Basic3TierAPI.csproj"
+RUN dotnet restore "Basic3TierAPI/Basic3TierAPI.csproj"
 
 COPY . .
 WORKDIR "/src/."
