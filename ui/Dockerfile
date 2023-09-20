@@ -1,9 +1,8 @@
 # Use an official Nginx runtime as a parent image
 FROM nginx:stable
 
-
 # Copy the HTML, CSS, and JavaScript files into the container
-COPY ui/ /usr/share/nginx/html
+COPY . /usr/share/nginx/html
 #Copy configs
 COPY conf /etc/nginx
 
