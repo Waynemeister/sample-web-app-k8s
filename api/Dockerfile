@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 # Copy API
-COPY ["Basic3TierAPI.csproj", "./"]
+COPY Basic3TierAPI/Basic3TierAPI.csproj Basic3TierAPI/
 # Restore as distinct layers
 RUN dotnet restore "Basic3TierAPI.csproj"
 
