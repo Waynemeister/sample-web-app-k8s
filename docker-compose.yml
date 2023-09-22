@@ -42,7 +42,9 @@ services:
     networks:
       - 3tier-network
 volumes:
-  pgdata: null
-  admindata: null
+  pgdata: 
+  admindata: 
 networks:
-  3tier-network: null
+  3tier-network:
+    name: 3tier-network
+    driver: bridge
