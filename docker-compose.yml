@@ -1,75 +1,48 @@
 version: '3'
-
-# Setup network and volume
-networks:
-3tier-network: 
-name: 3tier-network
-driver: bridge
-
+services:
+  postgres:
+    image: 'postgres:latest'
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin123
+      - POSTGRES_DB=basic3tier
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data'
+    networks:
+      - 3tier-network
+    ports:
+      - '5432:5432'
+  pgadmin:
+    image: 'dpage/pgadmin4:latest'
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=wayne@pgadmin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+    volumes:
+      - 'admindata:/var/lib/pgadmin'
+    ports:
+      - '5000:80'
+    networks:
+      - 3tier-network
+  ui:
+    build:
+      context: ./ui
+    restart: always
+    ports:
+      - '81:80'
+    networks:
+      - 3tier-network
+  basic3tier-api:
+    build:
+      context: ./api
+    restart: always
+    ports:
+      - '8080:80'
+    networks:
+      - 3tier-network
 volumes:
-pgdata:
-
-#PostgreSql DB (Code-First)
-postgres:  
-image: postgres:latest
-container_name: postgres
-environment:
-POSTGRES_USER: postgres
-POSTGRES_PASSWORD: admin123
-POSTGRES_DB: basic3tier
-ports:
-- "5432:5432"
-volumes:
-- pgdata: /var/lib/postgresql/data
+  pgdata: null
+  admindata: null
 networks:
-- 3tier-network
-healthcheck:
-- test: [“CMD-SHELL”, “pg_isready -U postgres”]
-- interval: 5s
-- timeout: 5s
-- retries: 5
-
-# Pg admin
-pgadmin:  
-image: dpage/pgadmin4:latest
-container_name: pgadmin
-environment:
-PGADMIN_DEFAULT_EMAIL: wayne@pgadmin.com
-PGADMIN_DEFAULT_PASSWORD: admin123
-ports:
-- "5431:80"
-depends_on:
-- postgres
-networks:
-- 3tier-network
-
-
-# API APP
-basic3tier-api:
-build:
-context: ./api
-dockerfile: Dockerfile
-container_name: basic3tier-api
-ports:
-- "81:80"
-depends_on:
-- postgres
-environment:
-ConnectionStrings__Basic3Tier: "Host=postgres;Port=5432;Database=basic3tier;Username=postgres;Password=admin123"
-networks:
-- 3tier-network
-
-
-# UI APP
-frontend:
-build:
-context: ./ui
-dockerfile: Dockerfile
-container_name: basic-3tier-ui my name is ui
-ports:
-- "80:80"
-networks:
-- basic3tier  my name is 3tier-network
-depends_on:
-- webapi
-- basic-3tier-postgres my db name is postgres
+  3tier-network: null
