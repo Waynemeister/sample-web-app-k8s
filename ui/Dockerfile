@@ -1,5 +1,5 @@
 # Use an official Nginx runtime as a parent image
-FROM nginx:stable
+FROM nginx:alpine
 
 # Copy the HTML, CSS, and JavaScript files into the container
 COPY . /usr/share/nginx/html
