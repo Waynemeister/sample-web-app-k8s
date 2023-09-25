@@ -14,7 +14,6 @@ COPY main.js /usr/share/nginx/html/
 RUN mkdir /etc/nginx/configs
 COPY configs/config.json /etc/nginx/configs/config.json
 
-RUN mkdir /usr/share/nginx/html/configs
 COPY configs/config.json /usr/share/nginx/html/configs
 
 # Expose port 80 for the Nginx server
