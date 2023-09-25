@@ -30,7 +30,7 @@ services:
       context: ./ui
     restart: always
     ports:
-      - '80:80'
+      - '5001:80'
     networks:
       - 3tier-network
   basic3tier-api:
